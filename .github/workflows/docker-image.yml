@@ -35,7 +35,7 @@ jobs:
       - name: Docker Push
         run: docker push eugeniubraga/ui
       - name: setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           # this is the json key of the service account created on the project
@@ -43,10 +43,8 @@ jobs:
           export_default_credentials: true
       - name: Deploy
         run: |
-          gcloud projects create ui
-          gcloud config set project ui
-          gcloud config set compute/region us-central1
-          gcloud config set compute/zone us-central1-c
+          #gcloud config set compute/region us-central1
+          #gcloud config set compute/zone us-central1-c
           gcloud container clusters get-credentials telega-cluster
           envsubst < manifest.yaml
           envsubst < manifest.yaml | kubectl apply -f -
