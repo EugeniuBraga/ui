@@ -43,6 +43,7 @@ jobs:
           export_default_credentials: true
       - name: Deploy
         run: |
+          gcloud config set project directed-fabric-357018
           gcloud config set compute/region us-central1
           gcloud config set compute/zone us-central1-c
           gcloud container clusters get-credentials telega-cluster
