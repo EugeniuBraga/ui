@@ -43,6 +43,8 @@ jobs:
           export_default_credentials: true
       - name: Deploy
         run: |
+          gcloud projects create ui
+          gcloud config set project ui
           gcloud config set compute/region us-central1
           gcloud config set compute/zone us-central1-c
           gcloud container clusters get-credentials telega-cluster
