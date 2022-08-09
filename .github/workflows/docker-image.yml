@@ -35,7 +35,7 @@ jobs:
       - name: Docker Push
         run: docker push eugeniubraga/ui
       - name: setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           # this is the json key of the service account created on the project
