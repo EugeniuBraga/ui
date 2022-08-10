@@ -19,28 +19,5 @@ pipeline {
                 }
             }
         }
-#         stage('Push image') {
-#             steps {
-#                 script {
-#                     docker.withRegistry('https://eu.gcr.io', 'gcr:[directed-fabric-357018]') {
-#                             ui.push("latest")
-#                             ui.push("${env.BUILD_ID}")
-#                     }
-#                 }
-#             }
-#         }
-#         stage('Deploy to K8s') {
-#             steps{
-#                 sh "sed -i 'eugeniubraga/ui' manifest.yaml"
-#                 step([$class: 'KubernetesEngineBuilder',
-#                     projectId: env.PROJECT_ID,
-#                     clusterName: env.CLUSTER_NAME,
-#                     location: env.LOCATION,
-#                     manifestPattern: 'manifest.yaml',
-#                     credentialsId: env.CREDENTIALS_ID,
-#                     verifyDeployments: true
-#                 ])
-#             }
-#         }
-#     }
-# }
+    }
+}
