@@ -20,7 +20,7 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://eu.gcr.io', 'gcr:[directed-fabric-357018]') {
                             ui.push("latest")
                             ui.push("${env.BUILD_ID}")
                     }
