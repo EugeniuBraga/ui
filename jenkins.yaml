@@ -14,9 +14,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                script {
-                        ui = docker.build("eugeniubraga/ui .")
-                }
+                sh "docker build -t eugeniubraga/ui ."
             }
         }
         stage('Push image') {
