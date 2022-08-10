@@ -9,7 +9,7 @@ pipeline {
     stages{
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t eugeniubraga/ui:latest ."
+                sh "docker build -t eugeniubraga/ui ."
             }
         }
     }
