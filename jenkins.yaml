@@ -14,9 +14,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                script{
-                    myapp = docker.build("eugeniubraga/ui:latest")
-                }
+                sh "docker build -t eugeniubraga/ui ."
             }
         }
         stage('Push image') {
