@@ -14,7 +14,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t eugeniubraga/ui:${env.BUILD_ID}"
+                script {
+                        ui = docker.build"eugeniubraga/ui:${env.BUILD_ID} ."
+                }
             }
         }
         stage('Push image') {
