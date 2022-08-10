@@ -10,44 +10,37 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git "https://github.com/EugeniuBraga/ui.git"
             }
         }
         stage('Build image') {
             steps {
                 script {
-                    app = docker.build("arshad1914/pipeline:${env.BUILD_ID}")
+                    sh "docker build -t eugeniubraga/ui .")
                     }
             }
         }
         
         stage('Push image') {
             steps {
-                script {
-                    withCredentials( \
-                                 [string(credentialsId: 'dockerhub',\
-                                 variable: 'dockerhub')]) {
-                        sh "docker login -u eugeniubraga -p ${dockerhub}"
+                
+                withCredentials( \
+                                [string(credentialsId: 'dockerhub',\
+                                variable: 'dockerhub')]) {
+                    sh "docker push eugeniubraga/ui"
                     }
-                    app.push("eugeniubraga/ui")
-                 }
-                                 
-            }
-        }
+                }
     
         stage('Deploy to K8s') {
             steps{
-                echo "Deployment started ..."
-                sh 'ls -ltr'
-                sh 'pwd'
-                sh "sed -i 's/pipeline:latest/pipeline:${env.BUILD_ID}/g' manifest.yaml"
+                sh "sed -i 'eugeniubraga/ui' manifest.yaml"
                 step([$class: 'KubernetesEngineBuilder', \
-                  projectId: env.PROJECT_ID, \
-                  clusterName: env.CLUSTER_NAME, \
-                  location: env.LOCATION, \
-                  manifestPattern: 'manifest.yaml', \
-                  credentialsId: env.CREDENTIALS_ID, \
-                  verifyDeployments: true])
+                    projectId: env.PROJECT_ID, \
+                    clusterName: env.CLUSTER_NAME, \
+                    location: env.LOCATION, \
+                    manifestPattern: 'manifest.yaml', \
+                    credentialsId: env.CREDENTIALS_ID, \
+                    verifyDeployments: true])
                 }
             }
         }    
