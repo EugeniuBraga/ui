@@ -24,9 +24,8 @@ pipeline {
                 
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')])
                     sh "docker login -u eugeniubraga --password-stdin"
-                {
-                    sh "docker push eugeniubraga/ui:latest"
                 }
+                    sh "docker push eugeniubraga/ui:latest"
             }
         }
     
