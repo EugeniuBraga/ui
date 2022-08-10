@@ -9,12 +9,20 @@ pipeline {
     stages{
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t eugeniubraga/ui ."
+                sh "docker build -t eugeniubraga/ui:latest ."
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([string(credentialsId: 'dockrhub', variables: "dockerhub")]) {
+                    sh "docker login -u eugeniubraga -p $dockerhub"
+                }
+                sh "docker push eugeniubraga/ui:latest"
             }
         }
         stage('Deploy to K8s') {
             steps{
-                sh "sed -i 'eugeniubraga/ui' manifest.yaml"
+                sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
                 step([$class: 'KubernetesEngineBuilder',
                 projectId: env.PROJECT_ID,                  
                 clusterName: env.CLUSTER_NAME,
