@@ -12,14 +12,12 @@ pipeline {
                 sh "docker build -t eugeniubraga/ui:latest ."
             }
         }
-        stage("Push image") {
+        stage('Push Docker Image') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
+                withCredentials([string(credentialsId: 'dockerhub', variables: "dockerhub")]) {
+                    sh "docker login -u eugeniubraga -p ${dockerhub}"
                 }
+                sh "docker push eugeniubraga/ui:latest"
             }
         }
         stage('Deploy to K8s') {
