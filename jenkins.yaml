@@ -13,9 +13,7 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            steps {
-                sh "docker build -t eugeniubraga/ui"
-            }
+            sh "docker build -t eugeniubraga/ui"
         }
         stage('Push image') {
             steps {
