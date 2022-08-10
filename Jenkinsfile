@@ -12,16 +12,18 @@ pipeline {
                 sh "docker build -t eugeniubraga/ui ."
             }
         }
-    stage('Deploy to K8s') {
-#             steps{
-#                 sh "sed -i 'eugeniubraga/ui' manifest.yaml"
-#                 step([$class: 'KubernetesEngineBuilder',
-#                     projectId: env.PROJECT_ID,
-#                     clusterName: env.CLUSTER_NAME,
-#                     location: env.LOCATION,
-#                     manifestPattern: 'manifest.yaml',
-#                     credentialsId: env.CREDENTIALS_ID,
-#                     verifyDeployments: true
-#                 ])
+        stage('Deploy to K8s') {
+            steps{
+                sh "sed -i 'eugeniubraga/ui' manifest.yaml"
+                step([$class: 'KubernetesEngineBuilder',
+                projectId: env.PROJECT_ID,                  
+                clusterName: env.CLUSTER_NAME,
+                location: env.LOCATION,
+                manifestPattern: 'manifest.yaml',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true
+            ])
+            }
+        }
     }
 }
