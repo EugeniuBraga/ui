@@ -2,11 +2,10 @@ pipeline {
     agent any
     environment {
         PROJECT_ID = 'directed-fabric-357018'
-                CLUSTER_NAME = 'telega-cluster'
-                LOCATION = 'us-central1-c'
-                CREDENTIALS_ID = 'directed-fabric-357018'
+        CLUSTER_NAME = 'telega-cluster'
+        LOCATION = 'us-central1-c'
+        CREDENTIALS_ID = 'directed-fabric-357018'
     }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -16,20 +15,17 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                     sh "docker build -t eugeniubraga/ui ."
-                }
+            }
         }
-        
         stage('Push image') {
             steps {
-                
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')])
                 {
                     sh "docker login -u eugeniubraga --password-stdin"
                 }
-                    sh "docker push eugeniubraga/ui:latest"
+                sh "docker push eugeniubraga/ui:latest"
             }
         }
-    
         stage('Deploy to K8s') {
             steps{
                 sh "sed -i 'eugeniubraga/ui' manifest.yaml"
@@ -39,6 +35,9 @@ pipeline {
                     location: env.LOCATION,
                     manifestPattern: 'manifest.yaml',
                     credentialsId: env.CREDENTIALS_ID,
-                    verifyDeployments: true])
+                    verifyDeployments: true
+                ])
             }
         }
+    }
+}
