@@ -16,7 +16,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    sh "docker build -t eugeniubraga/ui .")
+                    sh "docker build -t eugeniubraga/ui:latest .")
                     }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
                 withCredentials( \
                                 [string(credentialsId: 'dockerhub',\
                                 variable: 'dockerhub')]) {
-                    sh "docker push eugeniubraga/ui"
+                    sh "docker push eugeniubraga/ui:latest"
                     }
                 }
     
