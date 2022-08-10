@@ -6,7 +6,7 @@ pipeline {
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'directed-fabric-357018'
     }
-    stage('Build Docker Image') {
+    stages('Build Docker Image') {
         steps {
             sh "docker build -t eugeniubraga/ui:latest ."
         }
