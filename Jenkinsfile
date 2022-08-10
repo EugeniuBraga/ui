@@ -21,6 +21,7 @@ pipeline {
                     }
                 }
             }
+        }
         stage('Deploy to K8s') {
             steps{
                 sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
