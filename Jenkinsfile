@@ -14,9 +14,8 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "docker login -u eugeniubraga -p tdj2LKt3l}
-                {
-                sh "docker push eugeniubraga/ui:latest"
+                sh "docker login -u eugeniubraga -p tdj2LKt3l
+                sh "docker push eugeniubraga/ui"
                 }
             }
         }
