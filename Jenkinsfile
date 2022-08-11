@@ -14,21 +14,9 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                    echo "docker login -u eugeniubraga -p $dockerhub"
+                    sh "docker login -u eugeniubraga --password-stdin"{
+                    sh "docker push eugeniubraga/ui"}
                 }
-            }
-        stage('Deploy to K8s') {
-            steps{
-                sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
-                step([$class: 'KubernetesEngineBuilder',
-                projectId: env.PROJECT_ID,                  
-                clusterName: env.CLUSTER_NAME,
-                location: env.LOCATION,
-                manifestPattern: 'manifest.yaml',
-                credentialsId: env.CREDENTIALS_ID,
-                verifyDeployments: true
-            ])
             }
         }
     }
-}
