@@ -18,7 +18,6 @@ pipeline {
                 sh "docker push eugeniubraga/ui"
                 }
             }
-        }
         stage('Deploy to K8s') {
             steps{
                 sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
