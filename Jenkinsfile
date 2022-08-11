@@ -12,11 +12,6 @@ pipeline {
                 sh "docker build -t eugeniubraga/ui:latest ."
             }
         }
-        stage('Login Docker') {
-            steps {
-                sh "docker login -u eugeniubraga --password-stdin"
-            }
-        }
         stage('Push Docker Image') {
             steps {
                     sh "docker login -u eugeniubraga --password $dockerhub"{
