@@ -6,22 +6,19 @@ pipeline {
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'directed-fabric-357018'
     }
-    stages{
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t eugeniubraga/ui:latest ."
-            }
+    stage('Build image') {
+        /* Build your image */
+
+        app = docker.build("eugeniubraga/ui")
+    }
+        stage('Push image') {
+        /* Push image using withRegistry. */
+        docker.withRegistry('eugeniubraga', 'dockerhub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
-        stage('Login docker') {
-            steps {
-                sh "docker login -u eugeniubraga -p tdj2LKt3l"
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                sh "docker push eugeniubraga/ui"
-                }
-            }
+    }
+}
         stage('Deploy to K8s') {
             steps{
                 sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
