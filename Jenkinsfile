@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "docker push eugeniubraga/ui:latest"
+                sh "docker push eugeniubraga/ui"
             }
         }
         stage('Deploy to K8s') {
