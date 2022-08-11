@@ -11,26 +11,25 @@ pipeline {
 
         app = docker.build("eugeniubraga/ui")
     }
-        stage('Push image') {
-        /* Push image using withRegistry. */
-        docker.withRegistry('eugeniubraga', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+    stage('Push image') {
+    /* Push image using withRegistry. */
+    docker.withRegistry('eugeniubraga', 'dockerhub') {
+        app.push("${env.BUILD_NUMBER}")
+        app.push("latest")
         }
     }
-}
-        stage('Deploy to K8s') {
-            steps{
-                sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
-                step([$class: 'KubernetesEngineBuilder',
-                projectId: env.PROJECT_ID,                  
-                clusterName: env.CLUSTER_NAME,
-                location: env.LOCATION,
-                manifestPattern: 'manifest.yaml',
-                credentialsId: env.CREDENTIALS_ID,
-                verifyDeployments: true
-            ])
-            }
+
+    stage('Deploy to K8s') {
+        steps{
+            sh "sed -i 'eugeniubraga/ui:latest' manifest.yaml"
+            step([$class: 'KubernetesEngineBuilder',
+            projectId: env.PROJECT_ID,                  
+            clusterName: env.CLUSTER_NAME,
+            location: env.LOCATION,
+            manifestPattern: 'manifest.yaml',
+            credentialsId: env.CREDENTIALS_ID,
+            verifyDeployments: true
+        ])
+        }
         }
     }
-}
