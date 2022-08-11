@@ -12,10 +12,12 @@ pipeline {
                 sh "docker build -t eugeniubraga/ui:latest ."
             }
         }
-        stage('Push Docker Image') {
+        stage('Login docker') {
             steps {
                 sh "docker login -u eugeniubraga -p --password-stdin"
             }
+        }
+        stage('Push Docker Image') {
             steps {
                 sh "docker push eugeniubraga/ui"
                 }
