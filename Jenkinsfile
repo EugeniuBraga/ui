@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                    sh "$dockerhub | docker login -u eugeniubraga --password-stdin"{
+                    sh "docker login -u eugeniubraga -p $dockerhub"{
                     sh "docker push eugeniubraga/ui"}
                 }
             }
