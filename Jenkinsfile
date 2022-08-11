@@ -5,18 +5,26 @@ pipeline {
         CLUSTER_NAME = 'telega-cluster'
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'directed-fabric-357018'
-        }
+    }
     stages{
         stage('Build Docker Image') {
             steps {
-                app = docker.build("eugeniubraga/ui")
+                sh "docker build -t eugeniubraga/ui:latest ."
             }
         }
-        stage('Push image') {
-        /* Push image using withRegistry. */
-        docker.withRegistry('eugeniubraga', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+        stage('Login Docker') {
+            steps {
+                sh "docker login -u eugeniubraga --password-stdin"
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    withCreditentials('eugeniubraga', '$dockerhub') {
+                        sh "docker login -u eugeniubraga --password-stdin"
+                    }
+                }
+                sh "docker push eugeniubraga/ui"
                 }
             }
         stage('Deploy to K8s') {
