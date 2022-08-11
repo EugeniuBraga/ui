@@ -14,7 +14,10 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "docker login -u eugeniubraga -p $dockerhub"
+                sh "docker login -u eugeniubraga -p tdj2LKt3l}
+                {
+                sh "docker push eugeniubraga/ui:latest"
+                }
             }
         }
         stage('Deploy to K8s') {
