@@ -19,10 +19,8 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                    h "echo $docker | docker login -u eugeniubraga --password-stdin"
-                    }
-                }
-                sh "docker push eugeniubraga/ui"
+                    sh "echo $docker | docker login -u eugeniubraga --password-stdin"{
+                    sh "docker push eugeniubraga/ui"}
                 }
             }
         stage('Deploy to K8s') {
