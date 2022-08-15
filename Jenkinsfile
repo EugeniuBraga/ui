@@ -15,7 +15,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 sh "docker tag eugeniubraga/ui gcr.io/directed-fabric-357018/ui:latest"
-                    sh "docker push gcr.io/directed-fabric-357018/ui ."
+                    sh "docker push gcr.io/directed-fabric-357018/apps"
                 }
             }
         }
