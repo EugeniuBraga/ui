@@ -12,12 +12,5 @@ pipeline {
                 sh "docker build -t eugeniubraga/ui:latest ."
             }
         }
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([string(credentialsId: 'directed-fabric-357018', variables: {'PROJECT_ID': '${PROJECT_ID}')]) {
-                    sh "docker login -u eugeniubraga --password-stdin"
-                    sh "docker push eugeniubraga/ui"}
-                }
-            }
         }
     }
