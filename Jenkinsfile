@@ -14,8 +14,9 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
+                sh "gcloud container clusters get-credentials telega-cluster --zone us-central1-c --project directed-fabric-357018"
                 sh "docker tag eugeniubraga/ui gcr.io/directed-fabric-357018/ui:latest"
-                    sh "docker push gcr.io/directed-fabric-357018/apps"
+                sh "docker push gcr.io/directed-fabric-357018/apps"
                 }
             }
         }
