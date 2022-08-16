@@ -19,7 +19,7 @@ pipeline {
                 sh "gcloud auth activate-service-account --key-file='$GCLOUD'"
                 sh "gcloud auth configure-docker"
                 echo "Pushing Docker Image"
-                sh 'gcloud auth print-access-token',
+                sh 'gcloud auth print-access-token'
                 
                 echo "Pushing image To GCR"
                 // sh "sudo -s gcloud auth configure-docker"
