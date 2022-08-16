@@ -17,7 +17,7 @@ pipeline {
                 // sh "gcloud auth activate-service-account directed-fabric-357018 --key-file=.secrets/directed-fabric-357018-b40dd9a5e9cc.json"
                 // withEnv(['GCLOUD_PATH=/var/lib/jenkins/workspace/deploy_ui@tmp/durable-9c849115/']) {
                 //     // sh '$GCLOUD_PATH/gcloud --version'
-                sh "gcloud auth configure-docker -q"
+                // sh "gcloud auth configure-docker -q"
                 sh "docker tag eugeniubraga/ui gcr.io/directed-fabric-357018/ui:latest"
                 sh "docker push gcr.io/directed-fabric-357018/apps"
                 }
