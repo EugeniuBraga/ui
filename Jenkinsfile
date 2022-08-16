@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "gcloud auth login"
+                sh "gcloud auth activate-service-account directed-fabric-357018 --key-file=GC_KEY"
                 sh "docker tag eugeniubraga/ui gcr.io/directed-fabric-357018/ui:latest"
                 sh "docker push gcr.io/directed-fabric-357018/apps"
                 }
