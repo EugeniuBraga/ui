@@ -18,10 +18,9 @@ pipeline {
                 sh "cat '$GCLOUD' | docker login -u _json_key --password-stdin https://gcr.io"
                 sh "gcloud auth activate-service-account --key-file='$GCLOUD'"
                 sh "gcloud auth configure-docker"
-                GLOUD_AUTH = sh (
-                    script: 'gcloud auth print-access-token',
-                    returnStdout: true
-                ).trim()
+                echo "Pushing Docker Image"
+                sh 'gcloud auth print-access-token',
+                
                 echo "Pushing image To GCR"
                 // sh "sudo -s gcloud auth configure-docker"
                 // sh "docker tag eugeniubraga/ui gcr.io/directed-fabric-357018/ui:latest"
