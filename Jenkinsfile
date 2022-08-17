@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "dockerFingerprintFrom dockerfile: 'Dockerfile', image: 'eugeniubraga/ui', toolName: 'default-docker'"
+                sh "docker push eugeniubraga/ui:latest"
                 }
             }
             stage('Deploy to GKE') {
