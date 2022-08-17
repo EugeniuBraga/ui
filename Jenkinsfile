@@ -15,8 +15,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: "dockerhub", variable: "dockerhub")]) {
-                    sh "docker login -u eugeniubraga -p ${dockerhub}"
+                    withCredentials([string(credentialsId: "DOCKERHUB", variable: "DOCKERHUB")]) {
+                    sh "docker login -u eugeniubraga -p ${DOCKERHUB}"
                         }
                     sh "docker push eugeniubraga/ui:latest"
                     }
