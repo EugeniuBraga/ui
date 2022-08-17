@@ -22,11 +22,11 @@ pipeline {
                     }
                 }
                 }
-            }
-            stage('Deploy to GKE') {
-                steps {
-                    sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
-                    sh "kubectl apply -f deployment.yaml"
+        stage('Deploy to GKE') {
+            steps {
+                sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
+                sh "kubectl apply -f deployment.yaml"
                 }
             }
         }
+}
