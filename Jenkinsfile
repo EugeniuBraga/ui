@@ -14,10 +14,13 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                // sh "gcloud auth activate-service-account directed-fabric-357018 --key-file=.secrets/directed-fabric-357018-b40dd9a5e9cc.json"
-                // withEnv(['GCLOUD_PATH=/var/lib/jenkins/workspace/deploy_ui@tmp/durable-9c849115/']) {
-                    // sh '$GCLOUD_PATH/gcloud --version'
                 sh "dockerFingerprintFrom dockerfile: 'Dockerfile', image: 'eugeniubraga/ui', toolName: 'default-docker'"
+                }
+            }
+            stage('Deploy to GKE') {
+                steps {
+                    sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
+                    sh "kubectl apply -f deployment.yaml"
                 }
             }
         }
