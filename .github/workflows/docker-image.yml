@@ -48,6 +48,6 @@ jobs:
           gcloud config set compute/zone us-central1-c
           gcloud container clusters get-credentials telega-cluster
           envsubst < manifest.yaml
-          envsubst < manifest.yaml | kubectl apply -f -
+          envsubst < manifest.yaml | kubectl -n app apply -f -
           kubectl rollout status -w deployment/ui
           kubectl get all
