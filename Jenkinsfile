@@ -22,18 +22,19 @@ pipeline {
                     }
                 }
                 }
-        // stage('Deploy to GKE') {
-        //     steps {
-        //         sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
-        //         sh "kubectl apply -f deployment.yaml"
-        //     }
-
-        //     }
-            // stage('Deploy to GKE') {
-            //     steps {
-            //         sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
-            //         sh "kubectl apply -f deployment.yaml"
-            //     }
-            // }
+        stage('Deploy to GKE') {
+            steps {
+                sh "sed -i s/tagversion/${env.BUILD_ID}/g manifest.yaml"
+                step([
+                    $class: "KubernetesEngineBuilder",
+                            prjectId: env.PROJECT_ID,
+                                clusterName: env.CLUSTER_NAME,
+                                location: env.LOCATION,
+                                credentialsId: env.CREDENTIALS_ID,
+                                manifestPattern: "manifest.yaml",
+                                verfyDeployment: true
+                                ])
+            }
+            }
         }
 }
