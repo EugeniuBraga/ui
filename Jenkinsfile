@@ -9,32 +9,32 @@ pipeline {
     stages{
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t eugeniubraga/ui:latest ."
+                sh "docker build -t gcr.io/directed-fabric-357018/ui:latest ."
             }
         }
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'docker_hub', variable: 'dockerhub')]) {
-                    sh "docker login -u eugeniubraga -p ${dockerhub}"
-                        }
-                    sh "docker push eugeniubraga/ui:latest"
+                    withCredentials([file(credentialsId: 'GCP_KEY', variable: 'GCP_KEY')]) {
+                        sh "gcloud auth activate-service-account --key-file=$GCP_KEY"
                     }
+                    sh "docker push gcr.io/directed-fabric-357018/ui:latest"
                 }
-                }
-        stage('Deploy to GKE') {
-            steps {
-                sh "sed -i s/tagversion/${env.BUILD_ID}/g manifest.yaml"
-                step([
-                    $class: "KubernetesEngineBuilder",
-                            projectId: env.PROJECT_ID,
-                                clusterName: env.CLUSTER_NAME,
-                                location: env.LOCATION,
-                                credentialsId: env.CREDENTIALS_ID,
-                                manifestPattern: "manifest.yaml",
-                                verifyDeployment: true
-                                ])
-            }
             }
         }
+        // stage('Deploy to GKE') {
+        //     steps {
+        //         sh "sed -i s/tagversion/${env.BUILD_ID}/g manifest.yaml"
+        //         step([
+        //             $class: "KubernetesEngineBuilder",
+        //                     projectId: env.PROJECT_ID,
+        //                         clusterName: env.CLUSTER_NAME,
+        //                         location: env.LOCATION,
+        //                         credentialsId: env.CREDENTIALS_ID,
+        //                         manifestPattern: "manifest.yaml",
+        //                         verifyDeployment: true
+        //                         ])
+        //     }
+        // }
+    }
 }
