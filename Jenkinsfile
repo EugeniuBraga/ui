@@ -27,12 +27,12 @@ pipeline {
                 sh "sed -i s/tagversion/${env.BUILD_ID}/g manifest.yaml"
                 step([
                     $class: "KubernetesEngineBuilder",
-                            prjectId: env.PROJECT_ID,
+                            projectId: env.PROJECT_ID,
                                 clusterName: env.CLUSTER_NAME,
                                 location: env.LOCATION,
                                 credentialsId: env.CREDENTIALS_ID,
                                 manifestPattern: "manifest.yaml",
-                                verfyDeployment: true
+                                verifyDeployment: true
                                 ])
             }
             }
