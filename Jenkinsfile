@@ -14,14 +14,19 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                sh "docker push eugeniubraga/ui:latest"
+                script {
+                    withCredentials([string(credentialsId: "dockerhub", variable: "dockerhub")]) {
+                    sh "docker login -u eugeniubraga -p $(dockerhub)"
+                        }
+                    sh "docker push eugeniubraga/ui:latest"
+                    }
+                }
                 }
             }
-            stage('Deploy to GKE') {
-                steps {
-                    sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
-                    sh "kubectl apply -f deployment.yaml"
-                }
-            }
+            // stage('Deploy to GKE') {
+            //     steps {
+            //         sh "gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID"
+            //         sh "kubectl apply -f deployment.yaml"
+            //     }
+            // }
         }
-    }
