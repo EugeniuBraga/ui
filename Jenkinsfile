@@ -5,6 +5,7 @@ pipeline {
         CLUSTER_NAME = 'telega-cluster'
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'directed-fabric-357018'
+        PATH = '/sbin:/bin:/usr/sbin:/usr/bin:/opt/google-cloud-sdk/bin'
     }
     stages{
         stage('Build Docker Image') {
